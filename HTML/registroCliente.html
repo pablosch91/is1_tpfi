@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<!-- ------------------------------------------------------------
+     registroCliente.html
+     Pantalla de registración de un cliente nuevo - Mesa de Ayuda
+     UADER - Ingeniería de Software I
+     ------------------------------------------------------------ -->
+
+<html Lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Registro de cliente</title>
+
+  <style type="text/css">
+    label {
+      font-size: 18px;
+    }
+
+    form {
+      width: 500px;
+      border: 1px solid black;
+    }
+
+    input {
+      margin: 7px;
+      padding: 2px
+    }
+
+    .form-label {
+      margin-bottom: 0 !important;
+    }
+
+    .txt {
+      display: inline-block;
+      width: 80%;
+      outline: none;
+      margin: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Area de encabezados fijos -->
+  <center><img src="HelpDeskGirl.png" alt="Nuestra imagen corporativa" style="width:200px;height:150px;"></center>
+  <center>
+    <h1>Sistema de Mesa de Ayuda</h1>
+    <h2>Registrarse</h2>
+  </center>
+
+  <!-- Formulario para enviar los datos -->
+  <center>
+    <form class="form" method="GET" style="background-color:#d8f7cf">
+      <br>
+      <table>
+        <tr>
+          <td><label for="contacto" class="form-label">E-Mail</label></td>
+        </tr>
+        <tr>
+          <td><input class="txt" id="contacto" name="contacto" type="email" placeholder="Correo electrónico del cliente"
+              autocomplete="username" required><br></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td><label for="nombre" class="form-label">Nombre</label></td>
+        </tr>
+        <tr>
+          <td><input class="txt" id="nombre" name="nombre" type="text" placeholder="Nombre y apellido"
+              autocomplete="name" required><br></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td><label for="password" class="form-label">Password</label></td>
+        </tr>
+        <tr>
+          <td><input class="txt" id="password" name="password" type="password" placeholder="Elija una password"
+              autocomplete="new-password" required><br></td>
+        </tr>
+        <tr>
+          <td><span id="resultado1"></span></td>
+        </tr>
+        <tr>
+          <td><br></td>
+        </tr>
+        <tr>
+          <td>
+            <center><a href="loginClient.html">Volver al login</a></center>
+          </td>
+        </tr>
+        <tr>
+          <td><br><input name="termscondition" type="checkbox"> Acepto los términos y condiciones del ingreso al sistema
+            (S.E.u.O)<br></td>
+        </tr>
+        <tr>
+          <td><span id="resultado2"></span></td>
+        </tr>
+      </table>
+
+      <button type="submit">Registrarse</button>
+
+      <p> </p>
+    </form>
+  </center>
+
+  <!-- Script a ser ejecutado -->
+  <script src="registroCliente.js" type="module"></script>
+
+</body>
+
+</html>

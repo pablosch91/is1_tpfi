@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<!--------------------------------------------------------------------------------------------------------------------------->
-<!-- loginClient.html                                                                                                      -->                                                                                                      
-<!-- Taller de maquetado - aplicación ejemplo Mesa de Ayuda                                                                -->                                                                                                      
-<!-- Dr. Pedro E. Colla                                                                                                    -->                                                                                                      
-<!-- UADER - Ingeniería de Software I                                                                                      -->                                                                                                      
-<!--------------------------------------------------------------------------------------------------------------------------->
+<!-- ------------------------------------------------------------
+     loginClient.html
+     Taller de maquetado - aplicación ejemplo Mesa de Ayuda
+     Dr. Pedro E. Colla
+     UADER - Ingeniería de Software I
+     ------------------------------------------------------------ -->
 
 <html Lang="en">
     <head>
@@ -53,26 +53,31 @@
         <!-- <center><h4>Ingrese su identificación de usuario y password</h4></center> -->
         <table>
             <tr style="height:10px;">
-                <td><label for="cliForm" class="form-label">Usuario</label></td>               
+                <td><label for="contacto" class="form-label">E-Mail</label></td>
             </tr>
             <tr style="height:10px;">    
-                <td><input class="txt" name="id" type="text" placeholder="UserId"><br></td>
+                <td><input class="txt" id="contacto" name="contacto" type="email" placeholder="Correo electrónico del cliente"
+                    autocomplete="username" required><br></td>
             </tr>
             <tr><td>&nbsp;</td></tr>
             <tr style="height:10px;">
-                <td><label for="passForm" class="form-label">Contraseña</label></td>               
+                <td><label for="passForm" class="form-label">Password</label></td>               
             </tr>
             <tr>    
-                <td><input class="txt" name="password" type="password" placeholder="Contraseña"><br></td>
+                <td><input class="txt" name="password" type="password" placeholder="Password"><br></td>
             </tr>
             <tr><td><span id="resultado1"></span></td></tr>
             <tr><td><br></td></tr>
             <tr>
-                <td><center><a href="http://127.0.0.1:5500/loginClient.html">¿Olvidaste tu contraseña?</a></center></td>
+                <td>
+                  <center><a id="linkOlvido" href="resetCliente.html">¿Olvido la password?</a></center>
+                </td>
 
             </tr>
             <tr>
-                <td><center><span>¿No tienes una cuenta? </span><a href="http://127.0.0.1:5500/loginClient.html">Registrate</a></center></td>
+                <td>
+                  <center><span>¿No tienes una cuenta? </span><a id="linkRegistro">Registrate</a></center>
+                </td>
             </tr>
             <tr><td><br><input name="termscondition" type="checkbox"> Acepto los términos y condiciones del ingreso al sistema (S.E.u.O)</p></br></td></tr>
             <tr><td><span id="resultado2"></span></td></tr>
