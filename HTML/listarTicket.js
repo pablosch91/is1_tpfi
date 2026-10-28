@@ -28,8 +28,9 @@ console.log("ultima_fecha:" + query.fecha_ultimo_ingreso);
 console.log("mode:" + query.mode);
 
 const datosCliente = [
-  ["Cliente", query.nombre],
+  ["Cliente", query.id],
   ["Correo electrónico", query.contacto],
+  ["Nombre", query.nombre],
   ["Ultimo ingreso", query.fecha_ultimo_ingreso],
 ];
 
