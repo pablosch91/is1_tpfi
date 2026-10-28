@@ -48,18 +48,28 @@ formE1.addEventListener("submit", (event) => {
         Validaciones en los datos del formulario antes de enviar al servidor
         */
 
-  if (
-    data.contacto.trim() == "" ||
-    data.nombre.trim() == "" ||
-    data.password == ""
-  ) {
-    mostrar(
-      resultado1,
-      "Debe informar correo electrónico, nombre y password para registrarse",
-      "RED",
-    );
-    return;
-  }
+    if (
+      data.contacto.trim() == "" ||
+      data.nombre.trim() == "" ||
+      data.password == "" ||
+      data.password2 == ""
+    ) {
+      mostrar(
+        resultado1,
+        "Debe informar correo electrónico, nombre y la password dos veces para registrarse",
+        "RED",
+      );
+      return;
+    }
+
+    if (data.password != data.password2) {
+      mostrar(
+        resultado1,
+        "Las passwords no coinciden, vuelva a escribirlas",
+        "RED",
+      );
+      return;
+    }
 
   if (data.termscondition != "on") {
     mostrar(resultado2, "Debe aceptar los T&C para poder registrarse", "RED");

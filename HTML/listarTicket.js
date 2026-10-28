@@ -129,7 +129,7 @@ fetch(`${APIREST_URL}`, options)
     table.style.border = "1px solid";
     table.style.backgroundColor = "##626607";
     //ticket.uresponse.forEach((t)=> {
-    ticket.data.forEach((t) => {
+    (ticket.data ?? []).forEach((t) => {
       console.log(t.clienteID);
       if (t.clienteID == query.id) {
         if (f == false) {

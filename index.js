@@ -312,7 +312,7 @@ app.post("/api/addCliente", (req, res) => {
       hoy = dd + "/" + mm + "/" + yyyy;
 
       const newCliente = {
-        id: contacto,
+        id: crypto.randomUUID(),
         contacto: contacto,
         nombre: nombre,
         password: password,
