@@ -101,20 +101,17 @@ formE1.addEventListener("submit", (event) => {
     .then((respuesta) => {
       console.log("Respuesta del servidor=" + respuesta.response);
 
-      if (respuesta.response == "OK") {
-        mostrar(resultado2, "Registro exitoso, volviendo al login...", "GREEN");
-        setTimeout(() => {
-          window.location.href = systemURL.loginCliente;
-        }, 1500);
-      } else if (respuesta.message == "Cliente ya existe") {
-        mostrar(resultado1, "Ese correo ya está registrado", "RED");
-      } else {
-        mostrar(
-          resultado1,
-          "No se pudo completar el registro, intente nuevamente",
-          "RED",
-        );
-      }
+            if (respuesta.response == "OK") {
+              mostrar(resultado2, "Registro exitoso", "GREEN");
+            } else if (respuesta.message == "Cliente ya existe") {
+              mostrar(resultado1, "Ese correo ya está registrado", "RED");
+            } else {
+              mostrar(
+                resultado1,
+                "No se pudo completar el registro, intente nuevamente",
+                "RED",
+              );
+            }
     })
     .catch(() => {
       mostrar(resultado1, "No se pudo conectar con el servidor", "RED");

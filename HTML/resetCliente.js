@@ -94,31 +94,23 @@ formE1.addEventListener("submit", (event) => {
     })
     .then((respuesta) => {
       console.log("Respuesta del servidor=" + respuesta.response);
-
-      if (respuesta.response == "OK") {
-        mostrar(
-          resultado2,
-          "Password actualizada, volviendo al login...",
-          "GREEN",
-        );
-        setTimeout(() => {
-          window.location.href = systemURL.loginCliente;
-        }, 1500);
-      } else if (respuesta.message == "Cliente no existe") {
-        mostrar(resultado1, "No existe un cliente con ese correo", "RED");
-      } else if (respuesta.message == "Password igual a la actual") {
-        mostrar(
-          resultado1,
-          "La nueva password debe ser distinta de la actual",
-          "RED",
-        );
-      } else {
-        mostrar(
-          resultado1,
-          "No se pudo cambiar la password, intente nuevamente",
-          "RED",
-        );
-      }
+            if (respuesta.response == "OK") {
+              mostrar(resultado2, "Password actualizada", "GREEN");
+            } else if (respuesta.message == "Cliente no existe") {
+              mostrar(resultado1, "No existe un cliente con ese correo", "RED");
+            } else if (respuesta.message == "Password igual a la actual") {
+              mostrar(
+                resultado1,
+                "La nueva password debe ser distinta de la actual",
+                "RED",
+              );
+            } else {
+              mostrar(
+                resultado1,
+                "No se pudo cambiar la password, intente nuevamente",
+                "RED",
+              );
+            }
     })
     .catch(() => {
       mostrar(resultado1, "No se pudo conectar con el servidor", "RED");
