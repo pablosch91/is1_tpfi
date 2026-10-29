@@ -37,8 +37,6 @@ let docClient = new AWS.DynamoDB.DocumentClient();
 
 app.use(express.json()); // procesa el JSON que viene en las peticiones
 
-
-
 // Servidor de aplicaciones Express en modo de escucha.
 // Inicia el servidor HTTP en el puerto especificado (8080) para comenzar a recibir peticiones.
 app.listen(PORT, () =>
@@ -64,6 +62,13 @@ app.get("/api/cliente", (req, res) => {
   res.status(200).send({ response: "OK", message: "API Ready" });
   console.log("API cliente: OK");
 });
+
+// Fecha de hoy como dd/mm/yyyy en horario de Argentina, sin depender de la zona horaria del servidor
+function fechaHoy() {
+  return new Date().toLocaleDateString("en-GB", {
+    timeZone: "America/Argentina/Buenos_Aires",
+  });
+}
 
 function clienteSinPassword(cliente) {
   const { password, ...resto } = cliente;
@@ -95,8 +100,8 @@ app.post("/api/loginCliente", (req, res) => {
 
   const email = String(contacto).trim().toLowerCase(); // le saca espacios y pasa a minúsculas
 
-    buscarClientePorContacto(email)
-    .then((cliente) => {
+  buscarClientePorContacto(email)
+    .then(async (cliente) => {
       if (!cliente) {
         console.log("loginCliente: rechazado, cliente inexistente");
         res.status(400).send({ response: "invalido" });
@@ -115,20 +120,37 @@ app.post("/api/loginCliente", (req, res) => {
         return;
       }
 
+      const ingresoAnterior = cliente.fecha_ultimo_ingreso;
+
+      // guarda el ingreso de hoy, pero al frontend le devuelve el anterior
+      await docClient
+        .update({
+          TableName: "cliente",
+          Key: { id: cliente.id },
+          UpdateExpression: "SET fecha_ultimo_ingreso = :f",
+          ExpressionAttributeValues: { ":f": fechaHoy() },
+        })
+        .promise();
+
       res.status(200).send(
         JSON.stringify({
           response: "OK",
           id: cliente.id,
           nombre: cliente.nombre,
           contacto: cliente.contacto,
-          fecha_ultimo_ingreso: cliente.fecha_ultimo_ingreso,
+          fecha_ultimo_ingreso: ingresoAnterior,
         }),
       );
     })
     .catch((err) => {
-      res.status(400).send(
-        JSON.stringify({ response: "ERROR", message: "DB access error " + err }),
-      );
+      res
+        .status(400)
+        .send(
+          JSON.stringify({
+            response: "ERROR",
+            message: "DB access error " + err,
+          }),
+        );
     });
 });
 
@@ -304,12 +326,7 @@ app.post("/api/addCliente", (req, res) => {
       res.status(400).send({ response: "ERROR", message: "Cliente ya existe" });
       return;
     } else {
-      var hoy = new Date();
-      var dd = String(hoy.getDate()).padStart(2, "0");
-      var mm = String(hoy.getMonth() + 1).padStart(2, "0"); //January is 0!
-      var yyyy = hoy.getFullYear();
-
-      hoy = dd + "/" + mm + "/" + yyyy;
+      const hoy = fechaHoy();
 
       const newCliente = {
         id: crypto.randomUUID(),
@@ -495,7 +512,9 @@ app.post("/api/resetCliente", (req, res) => {
   buscarClientePorContacto(contacto)
     .then(async (cliente) => {
       if (!cliente) {
-        res.status(400).send({ response: "ERROR", message: "Cliente no existe" });
+        res
+          .status(400)
+          .send({ response: "ERROR", message: "Cliente no existe" });
         return;
       }
 
@@ -506,11 +525,7 @@ app.post("/api/resetCliente", (req, res) => {
         return;
       }
 
-      var hoy = new Date();
-      var dd = String(hoy.getDate()).padStart(2, "0");
-      var mm = String(hoy.getMonth() + 1).padStart(2, "0"); //January is 0!
-      var yyyy = hoy.getFullYear();
-      hoy = dd + "/" + mm + "/" + yyyy;
+      const hoy = fechaHoy();
 
       const paramsUpdate = {
         TableName: "cliente",
@@ -640,12 +655,7 @@ app.post("/api/addTicket", (req, res) => {
   const { solucion } = req.body;
   const { descripcion } = req.body;
 
-  var hoy = new Date();
-  var dd = String(hoy.getDate()).padStart(2, "0");
-  var mm = String(hoy.getMonth() + 1).padStart(2, "0"); //January is 0!
-  var yyyy = hoy.getFullYear();
-
-  hoy = dd + "/" + mm + "/" + yyyy;
+  const hoy = fechaHoy();
 
   const newTicket = {
     id: crypto.randomUUID(),
@@ -721,12 +731,7 @@ app.post("/api/updateTicket", (req, res) => {
     return;
   }
 
-  var hoy = new Date();
-  var dd = String(hoy.getDate()).padStart(2, "0");
-  var mm = String(hoy.getMonth() + 1).padStart(2, "0"); //January is 0!
-  var yyyy = hoy.getFullYear();
-
-  hoy = dd + "/" + mm + "/" + yyyy;
+  const hoy = fechaHoy();
 
   const ultimo_contacto = hoy;
 
@@ -905,7 +910,11 @@ async function resumenTickets(req, res) {
 
     res
       .status(200)
-      .json({ response: "OK", total_clientes: resumen.length, clientes: resumen });
+      .json({
+        response: "OK",
+        total_clientes: resumen.length,
+        clientes: resumen,
+      });
   } catch (err) {
     res
       .status(400)
